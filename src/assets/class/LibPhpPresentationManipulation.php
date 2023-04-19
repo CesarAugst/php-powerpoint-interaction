@@ -41,10 +41,13 @@ class LibPhpPresentationManipulation
     }
 
     //desc: cria slide
-    //params: (obj) PhpPresentation
+    //params: (obj) PhpPresentation, (bool) se primeiro slide
     //return: (obj) getActiveSlide
-    static function new_slide($presentation){
-        return $presentation->getActiveSlide();
+    static function new_slide($presentation, $first_slide = false){
+        //se for o primeiro slide
+        if($first_slide) return $presentation->getActiveSlide();
+        //demais
+        return $presentation->createSlide();
     }
 
     //desc: cria imagem

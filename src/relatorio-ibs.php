@@ -13,6 +13,7 @@ const IMAGE_STORAGE = __DIR__ . './assets/images';//diretorio das imagens
 const PRESENTATION_STORAGE = __DIR__ . './assets/presentation_files'; //diretorio dos arquivos de apresentacao
 //style
 const TITLE_PRIMARY_COLOR = "FFFFFF";
+const TITLE_SECONDARY_COLOR = "FF000000";
 
 /*Instancia da manipulacao*/
 $lib_pptx = new LibPhpPresentationManipulation();
@@ -22,11 +23,11 @@ $lib_pptx = new LibPhpPresentationManipulation();
 $presentation = $lib_pptx::new_presentation();
 
 //cria slide
-$slide_1 = $lib_pptx::new_slide($presentation);
+$slide_1 = $lib_pptx::new_slide($presentation, true);
 // Slide > Background > Image
 $lib_pptx::set_background_image_in_slide(
     $slide_1, //slide
-    "ibs-bg.png" //nome do arquivo
+    "ibs-bg-primary.png" //nome do arquivo
 );
 //titulo_capa
 $lib_pptx::create_text(
@@ -53,6 +54,27 @@ $lib_pptx::create_text(
     false, //ativo bold
     30, //font size
     TITLE_PRIMARY_COLOR //cor da fonte
+);
+
+//cria slide
+$slide_2 = $lib_pptx::new_slide($presentation);
+// Slide > Background > Image
+$lib_pptx::set_background_image_in_slide(
+    $slide_2, //slide
+    "ibs-bg-secondary.png" //nome do arquivo
+);
+//titulo
+$lib_pptx::create_text(
+    $slide_2, //slide
+    300, //altura
+    600, //largura
+    50, //posicao no eixo X
+    40, //posicao no eixo Y
+    "HORIZONTAL_LEFT", //alinhamento do texto
+    "Atividades Desenvolvidas", //texto
+    true, //ativo bold
+    30, //font size
+    TITLE_SECONDARY_COLOR //cor da fonte
 );
 
 //salva arquivo
