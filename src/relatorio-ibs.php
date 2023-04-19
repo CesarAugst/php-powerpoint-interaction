@@ -34,14 +34,27 @@ $lib_pptx::create_text(
     $slide_1, //slide
     300, //altura
     600, //largura
-    20, //posicao no eixo X
-    400, //posicao no eixo Y
+    60, //posicao no eixo X
+    350, //posicao no eixo Y
+    "HORIZONTAL_LEFT", //alinhamento texto
     "Relatório de Imprensa", //texto
     true, //ativo bold
-    40, //font size
+    45, //font size
     TITLE_PRIMARY_COLOR //cor da fonte
 );
-//subtiulo
+//titulo_capa
+$lib_pptx::create_text(
+    $slide_1, //slide
+    300, //altura
+    600, //largura
+    60, //posicao no eixo X
+    450, //posicao no eixo Y
+    "HORIZONTAL_LEFT", //alinhamento do texto
+    "Março 2023", //texto
+    false, //ativo bold
+    30, //font size
+    TITLE_PRIMARY_COLOR //cor da fonte
+);
 
 //salva arquivo
 $lib_pptx->create_pptx_file(

@@ -13,17 +13,18 @@ class LibPhpPresentationManipulation
 {
 
     //desc: criacao de texto
-    //params:
+    //params: (obj) getActiveSlide, (number) altura, (number) largura, (number) posicao eixo X, (number) posicao eixo y, () alinhamento, (string) texto, (bool) se bold, (number) fonte0size, (string) color
     //return: (obj) RichTextShape
-    static public function create_text($slide, $height, $width, $offsetX, $offsetY, $text, $isBold, $fontSize, $color){
+    static public function create_text($slide, $height, $width, $offsetX, $offsetY, $alignment, $text, $isBold, $fontSize, $color){
         //texto
         $title = $slide->createRichTextShape() //cria forma (texto)
         ->setHeight($height) //altura
         ->setWidth($width) //largura
         ->setOffsetX($offsetX) //posicao em relacao ao eixo X
         ->setOffsetY($offsetY); //posicao em relacao ao eixo Y
-        //alinhamento do paragrafo (horizontal)
-        $title->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        //se alinhamento do paragrafo (centralizado)
+        if($alignment == "HORIZONTAL_CENTER")$title->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        if($alignment == "HORIZONTAL_LEFT")$title->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
         //texto do paragrafo
         $text = $title->createTextRun($text);
         //fonte do texto como negrito
