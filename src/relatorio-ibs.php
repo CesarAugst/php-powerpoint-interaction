@@ -24,13 +24,13 @@ $presentation = $lib_pptx::new_presentation();
 $slide_1 = $lib_pptx::new_slide($presentation);
 
 // Slide > Background > Image
-$lib_pptx->set_background_image_in_slide(
+$lib_pptx::set_background_image_in_slide(
     $slide_1, //slide
     "ibs-bg.png" //nome do arquivo
 );
 
 //titulo_capa
-$lib_pptx->create_text(
+$lib_pptx::create_text(
     $slide_1, //slide
     300, //altura
     600, //largura

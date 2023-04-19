@@ -7,13 +7,15 @@ use PhpOffice\PhpPresentation\PhpPresentation; //classe do PhpPresentation
 use PhpOffice\PhpPresentation\Slide\Background\Image; //utilizacao de imagens
 use PhpOffice\PhpPresentation\IOFactory; //classe para manipular os arquivos
 
+
+
 class LibPhpPresentationManipulation
 {
 
     //desc: criacao de texto
     //params:
     //return: (obj) RichTextShape
-    public function create_text($slide, $height, $width, $offsetX, $offsetY, $text, $isBold, $fontSize, $color){
+    static public function create_text($slide, $height, $width, $offsetX, $offsetY, $text, $isBold, $fontSize, $color){
         //texto
         $title = $slide->createRichTextShape() //cria forma (texto)
         ->setHeight($height) //altura
@@ -47,7 +49,7 @@ class LibPhpPresentationManipulation
     //desc: cria imagem
     //params: (obj) getActiveSlide, (string) caminho de imagem
     //return: nenhum
-    function set_background_image_in_slide($slide, $file_name){
+    static function set_background_image_in_slide($slide, $file_name){
         $bg_image = new Image();
         $bg_image->setPath(IMAGE_STORAGE."/$file_name");
         $slide->setBackground($bg_image);
