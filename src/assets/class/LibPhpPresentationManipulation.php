@@ -59,7 +59,7 @@ class LibPhpPresentationManipulation
     //desc: cria arquivo
     //params: (obj) PhpPresentation, (string) tipo de arquivo, (string) nome do arquivo
     //return
-    function create_pptx_file($presentation, $file_type, $file_name){
+    static function create_pptx_file($presentation, $file_type, $file_name){
         $oWriterPPTX = IOFactory::createWriter($presentation, $file_type); //definindo o tipo de arquivo como PowerPoint2007
         $oWriterPPTX->save(PRESENTATION_STORAGE. "/$file_name");
     }

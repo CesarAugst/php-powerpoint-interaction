@@ -57,7 +57,7 @@ $lib_pptx::create_text(
 );
 
 //salva arquivo
-$lib_pptx->create_pptx_file(
+$lib_pptx::create_pptx_file(
     $presentation, //apresentacao
     'PowerPoint2007', //tipo de arquivo
     "teste-ibs.pptx"
