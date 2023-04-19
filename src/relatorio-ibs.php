@@ -20,15 +20,14 @@ $lib_pptx = new LibPhpPresentationManipulation();
 /*Criacao */
 //inicia nova apresentacao
 $presentation = $lib_pptx::new_presentation();
+
 //cria slide
 $slide_1 = $lib_pptx::new_slide($presentation);
-
 // Slide > Background > Image
 $lib_pptx::set_background_image_in_slide(
     $slide_1, //slide
     "ibs-bg.png" //nome do arquivo
 );
-
 //titulo_capa
 $lib_pptx::create_text(
     $slide_1, //slide
@@ -57,7 +56,7 @@ $lib_pptx::create_text(
 );
 
 //salva arquivo
-$lib_pptx->create_pptx_file(
+$lib_pptx::create_pptx_file(
     $presentation, //apresentacao
     'PowerPoint2007', //tipo de arquivo
     "teste-ibs.pptx"
