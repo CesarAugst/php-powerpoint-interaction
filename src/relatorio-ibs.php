@@ -2,12 +2,10 @@
 /*Bibliotecas */
 //utiliza bibliotecas do composer
 require_once 'vendor/autoload.php';
+require_once 'assets/class/LibPhpPresentationManipulation.php';
 //bibliotecas envolvidas
-use PhpOffice\PhpPresentation\PhpPresentation; //classe do PhpPresentation
-use PhpOffice\PhpPresentation\Slide\Background\Image; //utilizacao de imagens
-use PhpOffice\PhpPresentation\IOFactory; //classe para manipular os arquivos
-use PhpOffice\PhpPresentation\Style\Alignment; //classe de estilo de alinhamentos
-use PhpOffice\PhpPresentation\Style\Color; //classe de estilo de cores
+
+
 
 /*Constantes de apoio*/
 //files
@@ -16,21 +14,23 @@ const PRESENTATION_STORAGE = __DIR__ . './assets/presentation_files'; //diretori
 //style
 const TITLE_PRIMARY_COLOR = "FFFFFF";
 
+/*Instancia da manipulacao*/
+$lib_pptx = new LibPhpPresentationManipulation();
 
 /*Criacao */
 //inicia nova apresentacao
-$presentation = new PhpPresentation();
-
+$presentation = $lib_pptx::new_presentation();
 //cria slide
-$slide_1 = $presentation->getActiveSlide();
+$slide_1 = $lib_pptx::new_slide($presentation);
 
 // Slide > Background > Image
-$bg_image = new Image();
-$bg_image->setPath(IMAGE_STORAGE."/ibs-bg.png");
-$slide_1->setBackground($bg_image);
+$lib_pptx->set_background_image_in_slide(
+    $slide_1, //slide
+    "ibs-bg.png" //nome do arquivo
+);
 
 //titulo_capa
-create_text(
+$lib_pptx->create_text(
     $slide_1, //slide
     300, //altura
     600, //largura
@@ -44,25 +44,9 @@ create_text(
 //subtiulo
 
 //salva arquivo
-$oWriterPPTX = IOFactory::createWriter($presentation, 'PowerPoint2007'); //definindo o tipo de arquivo como PowerPoint2007
-$oWriterPPTX->save(PRESENTATION_STORAGE. "/teste-ibs.pptx");
+$lib_pptx->create_pptx_file(
+    $presentation, //apresentacao
+    'PowerPoint2007', //tipo de arquivo
+    "teste-ibs.pptx"
+);
 
-//desc: criacao de texto
-//params:
-//return: (obj) RichTextShape
-function create_text($slide, $height, $width, $offsetX, $offsetY, $text, $isBold, $fontSize, $color){
-    //texto
-    $title = $slide->createRichTextShape() //cria forma (texto)
-    ->setHeight($height) //altura
-    ->setWidth($width) //largura
-    ->setOffsetX($offsetX) //posicao em relacao ao eixo X
-    ->setOffsetY($offsetY); //posicao em relacao ao eixo Y
-    //alinhamento do paragrafo (horizontal)
-    $title->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-    //texto do paragrafo
-    $text = $title->createTextRun($text);
-    //fonte do texto como negrito
-    $text->getFont()->setBold($isBold)
-        ->setSize($fontSize) //tamanho da fonte
-        ->setColor(new Color($color)); //cor da fonte
-}
