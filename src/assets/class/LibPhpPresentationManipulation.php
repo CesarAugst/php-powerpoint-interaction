@@ -17,10 +17,26 @@ class LibPhpPresentationManipulation
     static public function type_box($slide, $type){
         switch ($type){
             case 'RichTextShape':
+            default:
                 return $slide->createRichTextShape();
                 break;
         }
     }
+
+    //desc: define o alinhamento do texto
+    //params: (string) tipo do alinhamento
+    //return: (obj) Alignment
+    static public function type_alignment($type){
+        switch ($type){
+            case 'HORIZONTAL_CENTER':
+                return Alignment::HORIZONTAL_CENTER;
+                break;
+            case 'HORIZONTAL_LEFT':
+            default:
+                return Alignment::HORIZONTAL_LEFT;
+        }
+    }
+
 
     //desc: cracao de box para o texto
     //params: (string) type box, (obj) getActiveSlide, (number) altura, (number) largura, (number) posicao eixo X, (number) posicao eixo y
@@ -36,15 +52,13 @@ class LibPhpPresentationManipulation
     }
 
     //desc: criacao de texto
-    //params: (obj) getActiveSlide, (number) altura, (number) largura, (number) posicao eixo X, (number) posicao eixo y, () alinhamento, (string) texto, (bool) se bold, (number) fonte0size, (string) color
+    //params: (obj) getActiveSlide, () alinhamento, (string) texto, (bool) se bold, (number) fonte0size, (string) color
     //return: (obj) RichTextShape
     static public function create_text($created_box, $alignment, $text, $isBold, $fontSize, $color){
         //cria box de texto
         $title = $created_box;
-        //texto
-        //se alinhamento do paragrafo (centralizado)
-        if($alignment == "HORIZONTAL_CENTER")$title->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-        if($alignment == "HORIZONTAL_LEFT")$title->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
+        //alinhamento
+        $title->getActiveParagraph()->getAlignment()->setHorizontal(self::type_alignment($alignment));
         //texto do paragrafo
         $text = $title->createTextRun($text);
         //fonte do texto como negrito
