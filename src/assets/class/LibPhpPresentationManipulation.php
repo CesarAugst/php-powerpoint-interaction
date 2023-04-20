@@ -14,7 +14,7 @@ class LibPhpPresentationManipulation
     //desc: define a criacao de box como text
     //params: (obj) getActiveSlide
     //return: (obj) createRichTextShape
-    static public function create_text_box($slide){
+    static public function text_box($slide){
         return $slide->createRichTextShape();
     }
 
@@ -34,15 +34,9 @@ class LibPhpPresentationManipulation
     //desc: criacao de texto
     //params: (obj) getActiveSlide, (number) altura, (number) largura, (number) posicao eixo X, (number) posicao eixo y, () alinhamento, (string) texto, (bool) se bold, (number) fonte0size, (string) color
     //return: (obj) RichTextShape
-    static public function create_text($slide, $height, $width, $offsetX, $offsetY, $alignment, $text, $isBold, $fontSize, $color){
+    static public function create_text($created_box, $alignment, $text, $isBold, $fontSize, $color){
         //cria box de texto
-        $title = self::create_box(
-            self::create_text_box($slide),
-            $height,
-            $width,
-            $offsetX,
-            $offsetY
-        );
+        $title = $created_box;
         //texto
         //se alinhamento do paragrafo (centralizado)
         if($alignment == "HORIZONTAL_CENTER")$title->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);

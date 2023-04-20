@@ -29,26 +29,34 @@ $lib_pptx::set_background_image_in_slide(
     $slide_1, //slide
     "ibs-bg-primary.png" //nome do arquivo
 );
-//titulo_capa
-$lib_pptx::create_text(
-    $slide_1, //slide
+//cria box para o titulo
+$created_box = $lib_pptx::create_box(
+    $lib_pptx::text_box($slide_1), //tipo de box
     300, //altura
     600, //largura
     60, //posicao no eixo X
-    350, //posicao no eixo Y
+    350 //posicao no eixo Y
+);
+//titulo_capa
+$lib_pptx::create_text(
+    $created_box, //box do texto
     "HORIZONTAL_LEFT", //alinhamento texto
     "Relatório de Imprensa", //texto
     true, //ativo bold
     45, //font size
     TITLE_PRIMARY_COLOR //cor da fonte
 );
-//titulo_capa
-$lib_pptx::create_text(
-    $slide_1, //slide
+//cria box para o subtitulo
+$created_box = $lib_pptx::create_box(
+    $lib_pptx::text_box($slide_1), //tipo de box
     300, //altura
     600, //largura
     60, //posicao no eixo X
-    450, //posicao no eixo Y
+    450 //posicao no eixo Y
+);
+//subtitulo_capa
+$lib_pptx::create_text(
+    $created_box, //tipo de box
     "HORIZONTAL_LEFT", //alinhamento do texto
     "Março 2023", //texto
     false, //ativo bold
@@ -63,13 +71,17 @@ $lib_pptx::set_background_image_in_slide(
     $slide_2, //slide
     "ibs-bg-secondary.png" //nome do arquivo
 );
-//titulo
-$lib_pptx::create_text(
-    $slide_2, //slide
+//cria box para o titulo
+$created_box = $lib_pptx::create_box(
+    $lib_pptx::text_box($slide_2), //tipo de box
     300, //altura
     600, //largura
     50, //posicao no eixo X
-    40, //posicao no eixo Y
+    40 //posicao no eixo Y
+);
+//titulo
+$lib_pptx::create_text(
+    $created_box, //box do texto
     "HORIZONTAL_LEFT", //alinhamento do texto
     "Atividades Desenvolvidas", //texto
     true, //ativo bold
