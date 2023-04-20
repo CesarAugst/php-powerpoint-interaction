@@ -8,6 +8,8 @@ use PhpOffice\PhpPresentation\Slide\Background\Image; //utilizacao de imagens
 use PhpOffice\PhpPresentation\IOFactory; //classe para manipular os arquivos
 use PhpOffice\PhpPresentation\Style\Bullet; //Bullet
 use PhpOffice\PhpPresentation\Shape\Drawing; //desenhos
+use PhpOffice\PhpPresentation\Style\Border; //bordas
+use PhpOffice\PhpPresentation\Style\Fill; //preenchimentos
 
 
 
@@ -88,6 +90,43 @@ class LibPhpPresentationManipulation
 
     }
 
+    //desc: criacao do titulo da tabela
+    //params: (obj) shape com as dimensoes
+    //return:
+    static function create_title_table($created_box, $number_of_columns, $titulo){
+        $row = $created_box->createRow();
+        $row->getFill()->setFillType(Fill::FILL_GRADIENT_LINEAR)
+            ->setRotation(90)
+            ->setStartColor(new Color('FFE06B20'))
+            ->setEndColor(new Color('FFFFFFFF'));
+        $cell = $row->nextCell();
+        $cell->setColSpan($number_of_columns);
+        $cell->createTextRun($titulo)->getFont()->setBold(true)->setSize(16);
+        $cell->getBorders()->getBottom()->setLineWidth(4)
+            ->setLineStyle(Border::LINE_SINGLE)
+            ->setDashStyle(Border::DASH_DASH);
+        $cell->getActiveParagraph()->getAlignment()
+            ->setMarginLeft(10);
+    }
+    //desc: criaca de linhas da tabela
+    //params:
+    //return:
+    static public function create_row_table($created_box){
+            $row = $created_box->createRow();
+            $row->setHeight(20);
+            $row->getFill()->setFillType(Fill::FILL_GRADIENT_LINEAR)
+                ->setRotation(90)
+                ->setStartColor(new Color('FFE06B20'))
+                ->setEndColor(new Color('FFFFFFFF'));
+            $oCell = $row->nextCell();
+            $oCell->createTextRun('R1C1')->getFont()->setBold(true);
+            $oCell->getActiveParagraph()->getAlignment()->setMarginLeft(20);
+            $oCell = $row->nextCell();
+            $oCell->createTextRun('R1C2')->getFont()->setBold(true);
+            $oCell = $row->nextCell();
+            $oCell->createTextRun('R1C3')->getFont()->setBold(true);
+    }
+
     //desc: define o bullet do texto
     //params: (string) tipo do alinhamento
     //return: (obj) Alignment
@@ -105,7 +144,7 @@ class LibPhpPresentationManipulation
     //desc: define a criacao de box como text
     //params: (obj) getActiveSlide, (string) tipo do box
     //return: (obj) createRichTextShape
-    static public function type_box($slide, $type){
+    static public function type_box($slide, $type, $params = NULL){
         switch ($type){
             case 'FILEIMAGE':
                 $shape = new Drawing\File();
@@ -114,6 +153,10 @@ class LibPhpPresentationManipulation
             case 'BASE64IMAGE':
                 $shape = new Drawing\Base64();
                 return $slide->addShape($shape);
+                break;
+            case 'TABLESHAPE':
+                return $slide->createTableShape($params->number_of_columns);
+                break;
             case 'RICHTEXTSHAPE':
             default:
                 return $slide->createRichTextShape();

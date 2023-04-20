@@ -21,6 +21,7 @@ const TYPE_NONE = "TYPE_NONE";
 const RICHTEXTSHAPE = "RICHTEXTSHAPE";
 const FILEIMAGE = "FILEIMAGE";
 const BASE64IMAGE = "BASE64IMAGE";
+const TABLESHAPE = "TABLESHAPE";
 
 /*Instancia da manipulacao*/
 $lib_pptx = new LibPhpPresentationManipulation();
@@ -33,16 +34,46 @@ $presentation = $lib_pptx::load_presentation(
 );
 
 //cria slide
-$slide_2 = $lib_pptx::new_slide($presentation);
+$slide_4 = $lib_pptx::new_slide($presentation);
+//define o background
+$slide_base = $presentation->getAllSlides()[1];
+$lib_pptx::set_existing_background(
+    $slide_4, //slide alvo
+    $slide_base //slide base
+);
+//cria box para tabela
+$table_params = (object) array('number_of_columns' => 3);
+$created_box = $lib_pptx::create_box(
+    $lib_pptx::type_box($slide_4, TABLESHAPE, $table_params), //tipo de box
+    300, //altura
+    600, //largura
+    300, //posicao no eixo X
+    300 //posicao no eixo Y
+);
+//cria tabela
+$lib_pptx::create_title_table(
+    $created_box,
+    $table_params->number_of_columns,
+    'Titulo da tabela'
+);
+//cria as linhas
+for ($i = 1; $i <= 30; $i++) {
+    $lib_pptx::create_row_table(
+        $created_box
+    );
+}
+
+//cria slide
+$slide_5 = $lib_pptx::new_slide($presentation);
 // define o background
 $slide_base = $presentation->getAllSlides()[0];
 $lib_pptx::set_existing_background(
-    $slide_2, //slide alvo
+    $slide_5, //slide alvo
     $slide_base //slide base
 );
 //cria box para o titulo
 $created_box = $lib_pptx::create_box(
-    $lib_pptx::type_box($slide_2, RICHTEXTSHAPE), //tipo de box
+    $lib_pptx::type_box($slide_5, RICHTEXTSHAPE), //tipo de box
     300, //altura
     600, //largura
     300, //posicao no eixo X
