@@ -87,7 +87,7 @@ class LibPhpPresentationManipulation
     //return: (obj) createRichTextShape
     static public function type_box($slide, $type){
         switch ($type){
-            case 'RichTextShape':
+            case 'RICHTEXTSHAPE':
             default:
                 return $slide->createRichTextShape();
                 break;
