@@ -12,10 +12,14 @@ use PhpOffice\PhpPresentation\IOFactory; //classe para manipular os arquivos
 class LibPhpPresentationManipulation
 {
     //desc: define a criacao de box como text
-    //params: (obj) getActiveSlide
+    //params: (obj) getActiveSlide, (string) tipo do box
     //return: (obj) createRichTextShape
-    static public function text_box($slide){
-        return $slide->createRichTextShape();
+    static public function type_box($slide, $type){
+        switch ($type){
+            case 'RichTextShape':
+                return $slide->createRichTextShape();
+                break;
+        }
     }
 
     //desc: cracao de box para o texto

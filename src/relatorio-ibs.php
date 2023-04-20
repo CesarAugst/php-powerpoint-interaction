@@ -31,7 +31,7 @@ $lib_pptx::set_background_image_in_slide(
 );
 //cria box para o titulo
 $created_box = $lib_pptx::create_box(
-    $lib_pptx::text_box($slide_1), //tipo de box
+    $lib_pptx::type_box($slide_1, 'RichTextShape'), //tipo de box
     300, //altura
     600, //largura
     60, //posicao no eixo X
@@ -48,7 +48,7 @@ $lib_pptx::create_text(
 );
 //cria box para o subtitulo
 $created_box = $lib_pptx::create_box(
-    $lib_pptx::text_box($slide_1), //tipo de box
+    $lib_pptx::type_box($slide_1, 'RichTextShape'), //tipo de box
     300, //altura
     600, //largura
     60, //posicao no eixo X
@@ -73,7 +73,7 @@ $lib_pptx::set_background_image_in_slide(
 );
 //cria box para o titulo
 $created_box = $lib_pptx::create_box(
-    $lib_pptx::text_box($slide_2), //tipo de box
+    $lib_pptx::type_box($slide_2, 'RichTextShape'), //tipo de box
     300, //altura
     600, //largura
     50, //posicao no eixo X
