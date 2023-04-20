@@ -6,11 +6,82 @@ use PhpOffice\PhpPresentation\Style\Color; //classe de estilo de cores
 use PhpOffice\PhpPresentation\PhpPresentation; //classe do PhpPresentation
 use PhpOffice\PhpPresentation\Slide\Background\Image; //utilizacao de imagens
 use PhpOffice\PhpPresentation\IOFactory; //classe para manipular os arquivos
+use PhpOffice\PhpPresentation\Style\Bullet; //Bullet
 
 
 
 class LibPhpPresentationManipulation
 {
+    //desc: cracao de box para o texto
+    //params: (string) type box, (obj) getActiveSlide, (number) altura, (number) largura, (number) posicao eixo X, (number) posicao eixo y
+    //return: (obj) createRichTextShape
+    static function create_box($created_box, $height, $width, $offsetX, $offsetY){
+        //espaco ocupado pela forma
+        $created_box->setHeight($height); //altura
+        $created_box->setWidth($width); //largura
+        $created_box->setOffsetX($offsetX); //posicao em relacao ao eixo X
+        $created_box->setOffsetY($offsetY); //posicao em relacao ao eixo Y
+        //retorna a box apos formacao
+        return $created_box;
+    }
+
+    //desc: criacao de texto
+    //params: (obj) getActiveSlide, (obj) alinhamento, (string) texto, (bool) se bold, (number) fonte0size, (string) color
+    //return: (obj) RichTextShape
+    static public function create_text($created_box, $alignment, $text, $isBold, $fontSize, $color){
+        //cria box de texto
+        $shape = $created_box;
+        //alinhamento
+        $shape->getActiveParagraph()->getAlignment()->setHorizontal($alignment);
+        //texto do paragrafo
+        $textRun = $shape->createTextRun($text);
+        //fonte do texto como negrito
+        $textRun->getFont()->setBold($isBold)
+            ->setSize($fontSize) //tamanho da fonte
+            ->setColor(new Color($color)); //cor da fonte
+        //retorna o texto
+        return $textRun;
+    }
+
+    //desc: criacao de texto com paragrafos
+    //params: (obj) getActiveSlide, (obj) alinhamento, (array<string>) texto, (bool) se bold, (number) fonte0size, (string) color, (obj) bullet
+    //return: (obj) RichTextShape
+    static public function create_paragraph_text($created_box, $alignment_type, $array_text, $isBold, $fontSize, $color, $bullet_type){
+        //cria box de texto
+        $shape = $created_box;
+        //alinhamento
+        $shape->getActiveParagraph()->getAlignment()->setHorizontal($alignment_type);
+        //fonte do texto como negrito
+        $shape->getActiveParagraph()->getFont()->setBold($isBold) //negrito
+            ->setSize($fontSize) //tamanho da fonte
+            ->setColor(new Color($color)); //cor da fonte
+        $shape->getActiveParagraph()->getBulletStyle()->setBulletType($bullet_type);
+        //texto
+        foreach ($array_text as $index => $text){
+            if($index == 0){
+                $shape->createTextRun($text);
+            }else{
+                $shape->createParagraph()->createTextRun($text);
+            }
+        }
+        //retorna o paragrafo
+        return $shape;
+    }
+
+    //desc: define o bullet do texto
+    //params: (string) tipo do alinhamento
+    //return: (obj) Alignment
+    static public function type_bullet($type){
+        switch ($type){
+            case 'TYPE_BULLET':
+                return Bullet::TYPE_BULLET;
+                break;
+            case 'NONE':
+            default:
+                return Bullet::TYPE_NONE;
+        }
+    }
+
     //desc: define a criacao de box como text
     //params: (obj) getActiveSlide, (string) tipo do box
     //return: (obj) createRichTextShape
@@ -35,36 +106,6 @@ class LibPhpPresentationManipulation
             default:
                 return Alignment::HORIZONTAL_LEFT;
         }
-    }
-
-
-    //desc: cracao de box para o texto
-    //params: (string) type box, (obj) getActiveSlide, (number) altura, (number) largura, (number) posicao eixo X, (number) posicao eixo y
-    //return: (obj) createRichTextShape
-    static function create_box($created_box, $height, $width, $offsetX, $offsetY){
-        //espaco ocupado pela forma
-        $created_box->setHeight($height); //altura
-        $created_box->setWidth($width); //largura
-        $created_box->setOffsetX($offsetX); //posicao em relacao ao eixo X
-        $created_box->setOffsetY($offsetY); //posicao em relacao ao eixo Y
-        //retorna a box apos formacao
-        return $created_box;
-    }
-
-    //desc: criacao de texto
-    //params: (obj) getActiveSlide, () alinhamento, (string) texto, (bool) se bold, (number) fonte0size, (string) color
-    //return: (obj) RichTextShape
-    static public function create_text($created_box, $alignment, $text, $isBold, $fontSize, $color){
-        //cria box de texto
-        $title = $created_box;
-        //alinhamento
-        $title->getActiveParagraph()->getAlignment()->setHorizontal(self::type_alignment($alignment));
-        //texto do paragrafo
-        $text = $title->createTextRun($text);
-        //fonte do texto como negrito
-        $text->getFont()->setBold($isBold)
-            ->setSize($fontSize) //tamanho da fonte
-            ->setColor(new Color($color)); //cor da fonte
     }
 
     //desc: cria apresentacao

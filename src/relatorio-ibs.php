@@ -40,7 +40,7 @@ $created_box = $lib_pptx::create_box(
 //titulo_capa
 $lib_pptx::create_text(
     $created_box, //box do texto
-    "HORIZONTAL_LEFT", //alinhamento texto
+    $lib_pptx::type_alignment("HORIZONTAL_LEFT"), //alinhamento texto
     "Relatório de Imprensa", //texto
     true, //ativo bold
     45, //font size
@@ -57,7 +57,7 @@ $created_box = $lib_pptx::create_box(
 //subtitulo_capa
 $lib_pptx::create_text(
     $created_box, //tipo de box
-    "HORIZONTAL_LEFT", //alinhamento do texto
+    $lib_pptx::type_alignment("HORIZONTAL_LEFT"), //alinhamento do texto
     "Março 2023", //texto
     false, //ativo bold
     30, //font size
@@ -82,11 +82,29 @@ $created_box = $lib_pptx::create_box(
 //titulo
 $lib_pptx::create_text(
     $created_box, //box do texto
-    "HORIZONTAL_LEFT", //alinhamento do texto
+    $lib_pptx::type_alignment("HORIZONTAL_LEFT"), //alinhamento do texto
     "Atividades Desenvolvidas", //texto
     true, //ativo bold
     30, //font size
     TITLE_SECONDARY_COLOR //cor da fonte
+);
+//cria box para o paragrafo
+$created_box = $lib_pptx::create_box(
+    $lib_pptx::type_box($slide_2, 'RichTextShape'), //tipo de box
+    300, //altura
+    600, //largura
+    50, //posicao no eixo X
+    150 //posicao no eixo Y
+);
+//paragrafo
+$lib_pptx::create_paragraph_text(
+    $created_box, //box
+    $lib_pptx::type_alignment("HORIZONTAL_LEFT"), //alinhamento do texto
+    ["Assessoria de Imprensa;", "Monitoramento de mercado;", "Cobertura de eventos;", "Ações de Relacionamento com a mídia."], //texto
+    false, //ativo bold
+    20, //font size
+    TITLE_SECONDARY_COLOR, //cor da fonte
+    $lib_pptx::type_bullet("TYPE_BULLET") //tipo de bullet
 );
 
 //salva arquivo
