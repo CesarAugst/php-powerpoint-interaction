@@ -34,61 +34,27 @@ $presentation = $lib_pptx::load_presentation(
 
 //cria slide
 $slide_2 = $lib_pptx::new_slide($presentation);
-// Slide > Background > Image
-$lib_pptx::set_background_image_in_slide(
-    $slide_2, //slide
-    "ibs-bg-secondary.png" //nome do arquivo
+// define o background
+$slide_base = $presentation->getAllSlides()[0];
+$lib_pptx::set_existing_background(
+    $slide_2, //slide alvo
+    $slide_base //slide base
 );
 //cria box para o titulo
 $created_box = $lib_pptx::create_box(
     $lib_pptx::type_box($slide_2, RICHTEXTSHAPE), //tipo de box
     300, //altura
     600, //largura
-    50, //posicao no eixo X
-    40 //posicao no eixo Y
+    300, //posicao no eixo X
+    300 //posicao no eixo Y
 );
 //titulo
 $lib_pptx::create_text(
     $created_box, //box do texto
     $lib_pptx::type_alignment(HORIZONTAL_LEFT), //alinhamento do texto
-    "Atividades Desenvolvidas", //texto
+    "Obrigado", //texto
     true, //ativo bold
-    30, //font size
-    TITLE_SECONDARY_COLOR //cor da fonte
-);
-//cria box para o paragrafo
-$created_box = $lib_pptx::create_box(
-    $lib_pptx::type_box($slide_2, RICHTEXTSHAPE), //tipo de box
-    300, //altura
-    600, //largura
-    50, //posicao no eixo X
-    150 //posicao no eixo Y
-);
-//paragrafo
-$lib_pptx::create_paragraph_text(
-    $created_box, //box
-    $lib_pptx::type_alignment(HORIZONTAL_LEFT), //alinhamento do texto
-    ["Assessoria de Imprensa;", "Monitoramento de mercado;", "Cobertura de eventos;", "Ações de Relacionamento com a mídia."], //texto
-    false, //ativo bold
-    20, //font size
-    TITLE_SECONDARY_COLOR, //cor da fonte
-    $lib_pptx::type_bullet(TYPE_BULLET) //tipo de bullet
-);
-//cria box para o numero
-$created_box = $lib_pptx::create_box(
-    $lib_pptx::type_box($slide_2, RICHTEXTSHAPE), //tipo de box
-    10, //altura
-    10, //largura
-    920, //posicao no eixo X
-    680 //posicao no eixo Y
-);
-//numero da pagina
-$lib_pptx::create_text(
-    $created_box, //box do texto
-    $lib_pptx::type_alignment(HORIZONTAL_CENTER), //alinhamento do texto
-    "2", //texto
-    false, //ativo bold
-    20, //font size
+    50, //font size
     TITLE_PRIMARY_COLOR //cor da fonte
 );
 

@@ -172,6 +172,16 @@ class LibPhpPresentationManipulation
         $slide->setBackground($bg_image);
     }
 
+    //desc: define como background do slide um background de outro ja existente
+    //params: (obj) getActiveSlide, (obj) slide
+    //return: nenhum
+    static function set_existing_background($slide_target, $slide_base){
+        //pega o background do slide base
+        $background = $slide_base->getBackground();
+        //define no slide alvo o atual background
+        $slide_target->setBackground($background);
+    }
+
     //desc: cria arquivo
     //params: (obj) PhpPresentation, (string) tipo de arquivo, (string) nome do arquivo
     //return
