@@ -11,17 +11,39 @@ use PhpOffice\PhpPresentation\IOFactory; //classe para manipular os arquivos
 
 class LibPhpPresentationManipulation
 {
+    //desc: define a criacao de box como text
+    //params: (obj) getActiveSlide
+    //return: (obj) createRichTextShape
+    static public function create_text_box($slide){
+        return $slide->createRichTextShape();
+    }
+
+    //desc: cracao de box para o texto
+    //params: (string) type box, (obj) getActiveSlide, (number) altura, (number) largura, (number) posicao eixo X, (number) posicao eixo y
+    //return: (obj) createRichTextShape
+    static function create_box($created_box, $height, $width, $offsetX, $offsetY){
+        //espaco ocupado pela forma
+        $created_box->setHeight($height); //altura
+        $created_box->setWidth($width); //largura
+        $created_box->setOffsetX($offsetX); //posicao em relacao ao eixo X
+        $created_box->setOffsetY($offsetY); //posicao em relacao ao eixo Y
+        //retorna a box apos formacao
+        return $created_box;
+    }
 
     //desc: criacao de texto
     //params: (obj) getActiveSlide, (number) altura, (number) largura, (number) posicao eixo X, (number) posicao eixo y, () alinhamento, (string) texto, (bool) se bold, (number) fonte0size, (string) color
     //return: (obj) RichTextShape
     static public function create_text($slide, $height, $width, $offsetX, $offsetY, $alignment, $text, $isBold, $fontSize, $color){
+        //cria box de texto
+        $title = self::create_box(
+            self::create_text_box($slide),
+            $height,
+            $width,
+            $offsetX,
+            $offsetY
+        );
         //texto
-        $title = $slide->createRichTextShape() //cria forma (texto)
-        ->setHeight($height) //altura
-        ->setWidth($width) //largura
-        ->setOffsetX($offsetX) //posicao em relacao ao eixo X
-        ->setOffsetY($offsetY); //posicao em relacao ao eixo Y
         //se alinhamento do paragrafo (centralizado)
         if($alignment == "HORIZONTAL_CENTER")$title->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         if($alignment == "HORIZONTAL_LEFT")$title->getActiveParagraph()->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
