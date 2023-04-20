@@ -125,7 +125,7 @@ $created_box = $lib_pptx::create_box(
 $lib_pptx::create_text(
     $created_box, //box do texto
     $lib_pptx::type_alignment(HORIZONTAL_CENTER), //alinhamento do texto
-    "2", //texto
+    "4", //texto
     false, //ativo bold
     20, //font size
     TITLE_PRIMARY_COLOR //cor da fonte

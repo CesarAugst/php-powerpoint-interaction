@@ -142,6 +142,17 @@ class LibPhpPresentationManipulation
         return new PhpPresentation();
     }
 
+    //carrega apresentacao ja criada
+    //params: (string) nome da apresentacao
+    //return: (obj) PhpPresentation
+    static function load_presentation($file_name, $version_file){
+        //relaciona versao com extensao
+        $extension_by_version = $version_file == 'pptx' ? 'PowerPoint2007' : 'ODPresentation';
+        //abre a leitura do arquivo no tipo indicado
+        $reader = IOFactory::createReader($extension_by_version);
+        return $reader->load(PRESENTATION_STORAGE."/$file_name");
+    }
+
     //desc: cria slide
     //params: (obj) PhpPresentation, (bool) se primeiro slide
     //return: (obj) getActiveSlide
