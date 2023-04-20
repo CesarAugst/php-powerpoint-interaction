@@ -19,6 +19,8 @@ const TYPE_BULLET = "TYPE_BULLET";
 const TYPE_NONE = "TYPE_NONE";
 //type box
 const RICHTEXTSHAPE = "RICHTEXTSHAPE";
+const FILEIMAGE = "FILEIMAGE";
+const BASE64IMAGE = "BASE64IMAGE";
 
 /*Instancia da manipulacao*/
 $lib_pptx = new LibPhpPresentationManipulation();
@@ -129,6 +131,83 @@ $lib_pptx::create_text(
     TITLE_PRIMARY_COLOR //cor da fonte
 );
 
+//cria slide
+$slide_3 = $lib_pptx::new_slide($presentation);
+// Slide > Background > Image
+$lib_pptx::set_background_image_in_slide(
+    $slide_3, //slide
+    "ibs-bg-tertiary.png" //nome do arquivo
+);
+//cria box para o titulo
+$created_box = $lib_pptx::create_box(
+    $lib_pptx::type_box($slide_3, RICHTEXTSHAPE), //tipo de box
+    300, //altura
+    600, //largura
+    50, //posicao no eixo X
+    40 //posicao no eixo Y
+);
+//titulo
+$lib_pptx::create_text(
+    $created_box, //box do texto
+    $lib_pptx::type_alignment(HORIZONTAL_LEFT), //alinhamento do texto
+    "Inserções na Imprensa", //texto
+    true, //ativo bold
+    30, //font size
+    TITLE_SECONDARY_COLOR //cor da fonte
+);
+//cria box para o paragrafo
+$created_box = $lib_pptx::create_box(
+    $lib_pptx::type_box($slide_3, RICHTEXTSHAPE), //tipo de box
+    300, //altura
+    350, //largura
+    30, //posicao no eixo X
+    150 //posicao no eixo Y
+);
+//paragrafo
+$lib_pptx::create_paragraph_text(
+    $created_box, //box
+    $lib_pptx::type_alignment(HORIZONTAL_LEFT), //alinhamento do texto
+    [
+        "Durante os meses de janeiro a março alcançamos o total de 85 publicações na imprensa, entre veículos impressos, on-line, rádio e TV.",
+        "Todas as publicações foram positivas."
+    ], //texto
+    false, //ativo bold
+    20, //font size
+    TITLE_PRIMARY_COLOR, //cor da fonte
+    $lib_pptx::type_bullet(TYPE_BULLET) //tipo de bullet
+);
+//cria box para o grafico
+$created_box = $lib_pptx::create_box(
+    $lib_pptx::type_box($slide_3, BASE64IMAGE), //tipo de box
+    300, //altura
+    350, //largura
+    500, //posicao no eixo X
+    100 //posicao no eixo Y
+);
+//grafico
+$lib_pptx::create_image(
+    $created_box, //box
+    "https://static.todamateria.com.br/upload/gr/af/grafico_ibge_1.jpg", //nome do arquivo
+    BASE64IMAGE
+);
+
+//cria box para o numero
+$created_box = $lib_pptx::create_box(
+    $lib_pptx::type_box($slide_3, RICHTEXTSHAPE), //tipo de box
+    10, //altura
+    10, //largura
+    920, //posicao no eixo X
+    680 //posicao no eixo Y
+);
+//numero da pagina
+$lib_pptx::create_text(
+    $created_box, //box do texto
+    $lib_pptx::type_alignment(HORIZONTAL_CENTER), //alinhamento do texto
+    "3", //texto
+    false, //ativo bold
+    20, //font size
+    TITLE_PRIMARY_COLOR //cor da fonte
+);
 
 //salva arquivo
 $lib_pptx::create_pptx_file(

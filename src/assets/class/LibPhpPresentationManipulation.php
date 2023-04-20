@@ -7,6 +7,7 @@ use PhpOffice\PhpPresentation\PhpPresentation; //classe do PhpPresentation
 use PhpOffice\PhpPresentation\Slide\Background\Image; //utilizacao de imagens
 use PhpOffice\PhpPresentation\IOFactory; //classe para manipular os arquivos
 use PhpOffice\PhpPresentation\Style\Bullet; //Bullet
+use PhpOffice\PhpPresentation\Shape\Drawing; //desenhos
 
 
 
@@ -15,18 +16,18 @@ class LibPhpPresentationManipulation
     //desc: cracao de box para o texto
     //params: (string) type box, (obj) getActiveSlide, (number) altura, (number) largura, (number) posicao eixo X, (number) posicao eixo y
     //return: (obj) createRichTextShape
-    static function create_box($created_box, $height, $width, $offsetX, $offsetY){
+    static function create_box($created_type_box, $height, $width, $offsetX, $offsetY){
         //espaco ocupado pela forma
-        $created_box->setHeight($height); //altura
-        $created_box->setWidth($width); //largura
-        $created_box->setOffsetX($offsetX); //posicao em relacao ao eixo X
-        $created_box->setOffsetY($offsetY); //posicao em relacao ao eixo Y
+        $created_type_box->setHeight($height); //altura
+        $created_type_box->setWidth($width); //largura
+        $created_type_box->setOffsetX($offsetX); //posicao em relacao ao eixo X
+        $created_type_box->setOffsetY($offsetY); //posicao em relacao ao eixo Y
         //retorna a box apos formacao
-        return $created_box;
+        return $created_type_box;
     }
 
     //desc: criacao de texto
-    //params: (obj) getActiveSlide, (obj) alinhamento, (string) texto, (bool) se bold, (number) fonte0size, (string) color
+    //params: (obj) box criada, (obj) alinhamento, (string) texto, (bool) se bold, (number) fonte0size, (string) color
     //return: (obj) RichTextShape
     static public function create_text($created_box, $alignment, $text, $isBold, $fontSize, $color){
         //cria box de texto
@@ -50,7 +51,9 @@ class LibPhpPresentationManipulation
         //cria box de texto
         $shape = $created_box;
         //alinhamento
-        $shape->getActiveParagraph()->getAlignment()->setHorizontal($alignment_type);
+        $shape->getActiveParagraph()->getAlignment()->setHorizontal($alignment_type)
+            ->setMarginLeft(25)
+            ->setIndent(-25);
         //fonte do texto como negrito
         $shape->getActiveParagraph()->getFont()->setBold($isBold) //negrito
             ->setSize($fontSize) //tamanho da fonte
@@ -63,9 +66,26 @@ class LibPhpPresentationManipulation
             }else{
                 $shape->createParagraph()->createTextRun($text);
             }
+            $shape->createBreak();
         }
         //retorna o paragrafo
         return $shape;
+    }
+
+    //desc: criacao de imagem
+    //params:
+    //return:
+    static public function create_image($created_box, $file_name, $image_type){
+        $created_box
+            ->setName('NOME') //nome da imagem
+            ->setDescription('DESCRICAO'); //descricao da imagem
+        if($image_type == FILEIMAGE){
+            return $created_box->setPath(IMAGE_STORAGE."/$file_name"); //caminho para a imagem
+        }else{
+            $img_64 = base64_encode(file_get_contents($file_name));// conversao da imagem
+            return $created_box->setData("data:image/jpeg;base64,$img_64"); //incorporando imagem
+        }
+
     }
 
     //desc: define o bullet do texto
@@ -87,6 +107,13 @@ class LibPhpPresentationManipulation
     //return: (obj) createRichTextShape
     static public function type_box($slide, $type){
         switch ($type){
+            case 'FILEIMAGE':
+                $shape = new Drawing\File();
+                return $slide->addShape($shape);
+                break;
+            case 'BASE64IMAGE':
+                $shape = new Drawing\Base64();
+                return $slide->addShape($shape);
             case 'RICHTEXTSHAPE':
             default:
                 return $slide->createRichTextShape();
